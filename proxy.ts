@@ -5,6 +5,7 @@ const signUpUrl = process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL ?? "/sign-up";
 
 const isPublicRoute = createRouteMatcher([signInUrl, signUpUrl]);
 
+/** Allows authentication pages through and protects every other matched route. */
 export default clerkMiddleware(async (auth, req) => {
   if (isPublicRoute(req)) {
     return;

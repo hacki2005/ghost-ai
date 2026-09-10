@@ -8,6 +8,7 @@ interface ProjectSidebarProps {
   onClose: () => void;
 }
 
+/** Renders project navigation, disabling interaction while the sidebar is closed. */
 export function ProjectSidebar({ isOpen, onClose }: ProjectSidebarProps) {
   return (
     <aside
