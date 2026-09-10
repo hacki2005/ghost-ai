@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   description: "Collaborative system design workspace",
 };
 
+/** Provides the global document shell and Clerk authentication context. */
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <ClerkProvider

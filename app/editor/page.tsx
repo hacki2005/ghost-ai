@@ -5,6 +5,7 @@ import { useState } from "react";
 import { EditorNavbar } from "@/components/editor/editor-navbar";
 import { ProjectSidebar } from "@/components/editor/project-sidebar";
 
+/** Renders the editor workspace and owns the project sidebar's open state. */
 export default function EditorPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 

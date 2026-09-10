@@ -2,6 +2,7 @@ import { SignIn } from "@clerk/nextjs";
 
 import { clerkAppearance } from "@/lib/clerk-appearance";
 
+/** Renders the Clerk sign-in flow inside the Ghost AI authentication shell. */
 export default function SignInPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4 py-6 text-foreground sm:px-6 lg:px-8">

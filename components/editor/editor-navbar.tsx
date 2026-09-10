@@ -8,6 +8,7 @@ interface EditorNavbarProps {
   onToggleSidebar: () => void;
 }
 
+/** Renders workspace navigation with sidebar and account controls. */
 export function EditorNavbar({
   isSidebarOpen,
   onToggleSidebar,
