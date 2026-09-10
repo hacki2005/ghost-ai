@@ -4,12 +4,13 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Current Phase
 
-- Feature 03 in progress
+- Feature 04 in progress
+- Feature 03 completed
 - Feature 02 completed
 
 ## Current Goal
 
-- Complete the Clerk authentication feature end to end: provider setup, auth pages, redirect logic, route protection, and editor user menu integration.
+- Complete the project dialogs and editor home screen specified for the `/editor` route using mock project data only.
 
 ## Completed
 
@@ -31,11 +32,11 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## In Progress
 
-- Final verification for feature 03 and tracker completion.
+- Feature 04: project dialogs and editor home shell implementation now wired through the generated dialog manager and editor route, including responsive sidebar action wiring.
 
 ## Next Up
 
-- Resolve the remaining Clerk API compatibility detail and finalize the authentication implementation verification.
+- Verify the project dialog spec end to end, then continue with any remaining editor home integration checks.
 
 ## Open Questions
 
