@@ -115,10 +115,30 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
+
+  html {
+    font-family: var(--font-geist-sans), sans-serif;
     @apply bg-background text-foreground;
   }
-  html {
-    @apply font-sans;
+
+  body {
+    font-family: var(--font-geist-sans), sans-serif;
+    @apply bg-background text-foreground antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-geist-sans), sans-serif;
+    letter-spacing: -0.04em;
+  }
+
+  code,
+  pre,
+  .font-mono {
+    font-family: var(--font-geist-mono), monospace;
   }
 }

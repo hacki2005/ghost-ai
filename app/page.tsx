@@ -1,28 +1,12 @@
-"use client";
+import { redirect } from "next/navigation";
+import { auth } from "@clerk/nextjs/server";
 
-import { useState } from "react";
+export default async function HomePage() {
+  const { userId } = await auth();
 
-import { EditorNavbar } from "@/components/editor/editor-navbar";
-import { ProjectSidebar } from "@/components/editor/project-sidebar";
+  if (userId) {
+    redirect("/editor");
+  }
 
-export default function Home() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-  return (
-    <div className="min-h-screen bg-background text-foreground">
-      <EditorNavbar
-        isSidebarOpen={isSidebarOpen}
-        onToggleSidebar={() => setIsSidebarOpen((current) => !current)}
-      />
-
-      <ProjectSidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-      />
-
-      <main className="relative min-h-screen pt-14">
-        <div className="h-[calc(100vh-3.5rem)] bg-background" />
-      </main>
-    </div>
-  );
+  redirect("/sign-in");
 }

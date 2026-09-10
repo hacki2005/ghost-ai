@@ -15,6 +15,7 @@ export function ProjectSidebar({ isOpen, onClose }: ProjectSidebarProps) {
         "fixed inset-y-0 left-0 z-40 w-[320px] border-r border-border bg-background/95 shadow-lg shadow-black/10 backdrop-blur-sm transition-transform duration-200 ease-out",
         isOpen ? "translate-x-0" : "-translate-x-full",
       ].join(" ")}
+      inert={!isOpen}
       aria-label="Project sidebar"
     >
       <div className="flex h-full flex-col">

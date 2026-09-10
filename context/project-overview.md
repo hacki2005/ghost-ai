@@ -38,7 +38,7 @@ Ghost AI is a real-time collaborative system design workspace. Users describe a 
 
 - Shared real-time canvas using Liveblocks and React Flow.
 - Live cursors, presence indicators, and node/edge editing.
-- Canvas snapshots persisted to the filesystem.
+- Canvas snapshots persisted in Vercel Blob and referenced by project metadata.
 
 ### Starter System Designs
 
@@ -56,7 +56,7 @@ Ghost AI is a real-time collaborative system design workspace. Users describe a 
 ### Spec Generation
 
 - The current canvas graph is converted into a Markdown technical specification.
-- Specs are persisted as files and linked to the project in the database.
+- Specs are written to Vercel Blob and linked to the project in the database via their blob URL reference.
 - Users can view and download generated specs.
 
 ## Scope
@@ -78,7 +78,7 @@ Ghost AI is a real-time collaborative system design workspace. Users describe a 
 - Billing and subscription systems
 - Enterprise permission tiers beyond owner and collaborator
 - Versioned spec history and review workflows
-- Production object storage migration
+- Future migration to a production object storage layer beyond the current Blob-backed artifacts
 - Mobile-native applications
 
 ## Success Criteria
