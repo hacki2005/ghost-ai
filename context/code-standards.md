@@ -12,7 +12,7 @@
 - Strict mode is required throughout the project.
 - Avoid `any`; use explicit interfaces or narrowly scoped types.
 - Validate unknown external input at system boundaries before trusting it.
-- Use `interface` for object contracts.
+- Use `interface` for object contracts, but intersections such as `ComponentProps<typeof X> & VariantProps<typeof Y>` are valid when they preserve the library prop contract while adding component-specific variant types.
 
 ## Next.js
 
