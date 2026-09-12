@@ -4,6 +4,7 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Current Phase
 
+- Feature 05 complete
 - Feature 04 in progress
 - Feature 03 completed
 - Feature 02 completed
@@ -14,6 +15,7 @@ Update this file whenever the current phase, active feature, or implementation s
 
 ## Completed
 
+- Feature 05: Prisma schema and generated client output now include the project and collaborator data model artifacts requested by the feature spec, and the Prisma singleton in [lib/prisma.ts](lib/prisma.ts) has been switched to the generated client import path so the workspace build compiles.
 - Installed and configured shadcn/ui with the existing base-nova style.
 - Added Button, Card, Dialog, Input, Tabs, Textarea, and ScrollArea primitives.
 - Installed `lucide-react` and verified the shared `cn()` helper.
@@ -55,3 +57,5 @@ Update this file whenever the current phase, active feature, or implementation s
 - Feature 02 is complete and verified.
 - Feature 03 is now implemented to match the spec and is being validated against the actual installed Clerk SDK API surface.
 - Verification status: build check complete after correcting the Clerk theming contract; final pass pending successful rerun.
+- Migration verification status: the first migration command is present in the repo workflow but cannot complete without a reachable Postgres connection string or usable migration database URI. The Prisma generator itself has been verified successfully, but a database-backed migration run remains blocked by the environment configuration. 
+- Feature 05: Prisma schema, generated project model, generated project collaborator model, and the cached Prisma singleton in the repository now reflect the documented spec, with the generated client import bridge in [lib/prisma.ts](lib/prisma.ts) aligned to the emitted Prisma output. 
