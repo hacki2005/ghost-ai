@@ -14,6 +14,7 @@ interface EditorHomeProps {
   sharedProjects: EditorProject[];
 }
 
+/** Renders the editor landing screen and manages its project interactions. */
 export function EditorHome({
   ownedProjects,
   sharedProjects,

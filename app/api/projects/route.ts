@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { prisma } from "../../../lib/prisma";
 
+/** Returns the authenticated user's owned projects, newest first. */
 export async function GET() {
   const { userId } = await auth();
 
@@ -27,6 +28,10 @@ export async function GET() {
   }
 }
 
+/**
+ * Creates a draft project owned by the authenticated user.
+ * Missing or blank names default to "Untitled Project".
+ */
 export async function POST(request: Request) {
   const { userId } = await auth();
 

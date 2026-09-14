@@ -27,6 +27,7 @@ interface ProjectDialogHostProps {
   submitDelete: () => void;
 }
 
+/** Renders the active create, rename, or delete project dialog. */
 export function ProjectDialogHost({
   dialog,
   createName,

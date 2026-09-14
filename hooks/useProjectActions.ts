@@ -16,6 +16,7 @@ export interface ProjectDialogState {
   project?: EditorProject;
 }
 
+/** Converts a project name to a lowercase, hyphen-delimited slug. */
 export function makeSlug(value: string) {
   return value
     .trim()
@@ -24,10 +25,12 @@ export function makeSlug(value: string) {
     .replace(/^-|-$/g, "");
 }
 
+/** Generates a short, non-cryptographic base-36 suffix for a room ID. */
 export function makeRoomSuffix() {
   return Math.random().toString(36).slice(2, 7);
 }
 
+/** Extracts an API error message, with status-text and generic fallbacks. */
 async function readErrorMessage(response: Response) {
   try {
     const payload = await response.json();
@@ -37,6 +40,10 @@ async function readErrorMessage(response: Response) {
   }
 }
 
+/**
+ * Manages project dialogs and create, rename, and delete requests.
+ * Successful requests navigate or refresh the editor as appropriate.
+ */
 export function useProjectActions(projects: EditorProject[] = []) {
   const router = useRouter();
   const pathname = usePathname();

@@ -7,6 +7,10 @@ export interface EditorProject {
   owner: boolean;
 }
 
+/**
+ * Returns the authenticated user's owned and shared projects, newest first.
+ * Unauthenticated users and database failures receive empty project lists.
+ */
 export async function getEditorProjects() {
   const { userId } = await auth();
 

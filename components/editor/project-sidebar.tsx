@@ -16,6 +16,7 @@ interface ProjectSidebarProps {
   onDelete: (project: EditorProject) => void;
 }
 
+/** Displays owned and shared projects with management actions for owned items. */
 export function ProjectSidebar({
   isOpen,
   onClose,
