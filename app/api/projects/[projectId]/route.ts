@@ -6,6 +6,7 @@ function normalizeError(message: string, status = 400) {
   return NextResponse.json({ error: message }, { status });
 }
 
+/** Renames a project after verifying that the authenticated user owns it. */
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ projectId: string }> },
@@ -62,6 +63,7 @@ export async function PATCH(
   }
 }
 
+/** Deletes a project after verifying that the authenticated user owns it. */
 export async function DELETE(
   _request: Request,
   { params }: { params: Promise<{ projectId: string }> },
