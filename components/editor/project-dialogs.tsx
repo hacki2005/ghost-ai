@@ -12,15 +12,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import type { ProjectDialogState } from "@/components/editor/use-project-dialogs";
-
-function makeSlug(value: string) {
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
+import { makeSlug, type ProjectDialogState } from "@/hooks/useProjectActions";
 
 interface ProjectDialogHostProps {
   dialog: ProjectDialogState | null;
@@ -87,6 +79,15 @@ export function ProjectDialogHost({
                 </div>
                 <div className="mt-1 font-mono text-sm text-foreground">
                   /{makeSlug(createName) || "project-name"}
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-border bg-muted/30 px-3 py-2">
+                <div className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
+                  Room ID preview
+                </div>
+                <div className="mt-1 font-mono text-sm text-foreground">
+                  {makeSlug(createName) || "project-name"}
                 </div>
               </div>
             </div>
@@ -178,7 +179,11 @@ export function ProjectDialogHost({
                 </DialogTitle>
               </div>
               <DialogDescription className="text-sm text-muted-foreground">
-                Are you sure you want to delete <span className="font-semibold text-foreground">{project?.name}</span>? This action cannot be undone.
+                Are you sure you want to delete{" "}
+                <span className="font-semibold text-foreground">
+                  {project?.name}
+                </span>
+                ? This action cannot be undone.
               </DialogDescription>
             </DialogHeader>
 
