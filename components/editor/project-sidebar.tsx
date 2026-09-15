@@ -4,21 +4,23 @@ import { MoreHorizontal, Pencil, Plus, Trash2, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { MockProject } from "@/components/editor/use-project-dialogs";
+import type { EditorProject } from "@/hooks/useProjectActions";
 
 interface ProjectSidebarProps {
   isOpen: boolean;
   onClose: () => void;
-  projects: MockProject[];
+  ownedProjects: EditorProject[];
+  sharedProjects: EditorProject[];
   onCreate: () => void;
-  onRename: (project: MockProject) => void;
-  onDelete: (project: MockProject) => void;
+  onRename: (project: EditorProject) => void;
+  onDelete: (project: EditorProject) => void;
 }
 
 export function ProjectSidebar({
   isOpen,
   onClose,
-  projects,
+  ownedProjects,
+  sharedProjects,
   onCreate,
   onRename,
   onDelete,
@@ -69,39 +71,37 @@ export function ProjectSidebar({
 
               <TabsContent value="my-projects" className="mt-4 flex-1">
                 <div className="space-y-2">
-                  {projects
-                    .filter((project) => project.owner)
-                    .map((project) => (
-                      <div
-                        key={project.id}
-                        className="flex items-center justify-between rounded-xl border border-border bg-muted/20 px-3 py-2"
-                      >
-                        <span className="text-sm text-foreground">
-                          {project.name}
-                        </span>
-                        <div className="flex items-center gap-1">
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon-sm"
-                            aria-label={`Rename ${project.name}`}
-                            onClick={() => onRename(project)}
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            type="button"
-                            variant="ghost"
-                            size="icon-sm"
-                            aria-label={`Delete ${project.name}`}
-                            onClick={() => onDelete(project)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
+                  {ownedProjects.map((project) => (
+                    <div
+                      key={project.id}
+                      className="flex items-center justify-between rounded-xl border border-border bg-muted/20 px-3 py-2"
+                    >
+                      <span className="text-sm text-foreground">
+                        {project.name}
+                      </span>
+                      <div className="flex items-center gap-1">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon-sm"
+                          aria-label={`Rename ${project.name}`}
+                          onClick={() => onRename(project)}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon-sm"
+                          aria-label={`Delete ${project.name}`}
+                          onClick={() => onDelete(project)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
                       </div>
-                    ))}
-                  {projects.filter((project) => project.owner).length === 0 && (
+                    </div>
+                  ))}
+                  {ownedProjects.length === 0 && (
                     <div className="flex h-full min-h-[180px] items-center justify-center rounded-2xl border border-dashed border-border bg-muted/30 text-center text-sm text-muted-foreground">
                       No projects yet.
                     </div>
@@ -111,23 +111,20 @@ export function ProjectSidebar({
 
               <TabsContent value="shared" className="mt-4 flex-1">
                 <div className="space-y-2">
-                  {projects
-                    .filter((project) => !project.owner)
-                    .map((project) => (
-                      <div
-                        key={project.id}
-                        className="flex items-center justify-between rounded-xl border border-border bg-muted/20 px-3 py-2"
-                      >
-                        <span className="text-sm text-foreground">
-                          {project.name}
-                        </span>
-                        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-border">
-                          <MoreHorizontal className="h-3 w-3 text-muted-foreground" />
-                        </span>
-                      </div>
-                    ))}
-                  {projects.filter((project) => !project.owner).length ===
-                    0 && (
+                  {sharedProjects.map((project) => (
+                    <div
+                      key={project.id}
+                      className="flex items-center justify-between rounded-xl border border-border bg-muted/20 px-3 py-2"
+                    >
+                      <span className="text-sm text-foreground">
+                        {project.name}
+                      </span>
+                      <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-border">
+                        <MoreHorizontal className="h-3 w-3 text-muted-foreground" />
+                      </span>
+                    </div>
+                  ))}
+                  {sharedProjects.length === 0 && (
                     <div className="flex h-full min-h-[180px] items-center justify-center rounded-2xl border border-dashed border-border bg-muted/30 text-center text-sm text-muted-foreground">
                       No shared projects.
                     </div>
