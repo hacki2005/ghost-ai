@@ -12,7 +12,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { type ProjectDialogState } from "@/hooks/useProjectActions";
+import { makeSlug, type ProjectDialogState } from "@/hooks/useProjectActions";
 
 interface ProjectDialogHostProps {
   dialog: ProjectDialogState | null;
@@ -82,7 +82,7 @@ export function ProjectDialogHost({
                   Slug preview
                 </div>
                 <div className="mt-1 font-mono text-sm text-foreground">
-                  /{createRoomId || "project-name"}
+                  /{makeSlug(createName) || "project-name"}
                 </div>
               </div>
 

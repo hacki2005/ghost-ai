@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+  <title id="title">Ghost AI share feature flow</title>
+  <desc id="desc">Flow chart showing the Share button, workspace state, share dialog, collaborator API, Prisma database, Clerk enrichment, and owner or collaborator permissions.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#8b82ff"/>
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+    <style>
+      .title { font: 700 30px Arial, sans-serif; fill: #f0f0f4; }
+      .subtitle { font: 400 16px Arial, sans-serif; fill: #a7a7b5; }
+      .section { font: 700 15px Arial, sans-serif; fill: #00c8d4; letter-spacing: 1px; }
+      .box-title { font: 700 18px Arial, sans-serif; fill: #f0f0f4; }
+      .text { font: 400 14px Arial, sans-serif; fill: #c0c0cc; }
+      .small { font: 400 12px Arial, sans-serif; fill: #90909e; }
+      .box { fill: #18181c; stroke: #3a3a42; stroke-width: 2; rx: 16; filter: url(#shadow); }
+      .client { stroke: #00c8d4; }
+      .server { stroke: #8b82ff; }
+      .data { stroke: #fbbf24; }
+      .decision { fill: #202027; stroke: #8b82ff; stroke-width: 2; }
+      .arrow { fill: none; stroke: #8b82ff; stroke-width: 2.5; marker-end: url(#arrow); }
+      .dashed { stroke-dasharray: 8 7; }
+      .label-bg { fill: #080809; }
+      .label { font: 600 12px Arial, sans-serif; fill: #d4d4df; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="980" fill="#080809"/>
+  <path d="M0 130 H1600" stroke="#2a2a30" stroke-width="1"/>
+  <text x="70" y="66" class="title">Ghost AI · Share Feature Flow</text>
+  <text x="70" y="98" class="subtitle">Owners manage collaborators by email; collaborators receive read-only access.</text>
+
+  <text x="90" y="170" class="section">CLIENT</text>
+  <text x="680" y="170" class="section">SERVER</text>
+  <text x="1260" y="170" class="section">DATA &amp; IDENTITY</text>
+
+  <rect x="70" y="205" width="300" height="130" class="box client"/>
+  <text x="95" y="242" class="box-title">editor-navbar.tsx</text>
+  <text x="95" y="272" class="text">Share2 button</text>
+  <text x="95" y="296" class="text">onClick(onShare)</text>
+
+  <rect x="70" y="410" width="300" height="180" class="box client"/>
+  <text x="95" y="447" class="box-title">editor-workspace.tsx</text>
+  <text x="95" y="477" class="text">isShareDialogOpen state</text>
+  <text x="95" y="501" class="text">onShare =&gt; setOpen(true)</text>
+  <text x="95" y="525" class="text">renders &lt;ShareDialog /&gt;</text>
+  <text x="95" y="549" class="small">passes project.id and project.name</text>
+
+  <rect x="450" y="205" width="360" height="385" class="box client"/>
+  <text x="475" y="242" class="box-title">share-dialog.tsx</text>
+  <text x="475" y="278" class="text">When opened:</text>
+  <text x="495" y="304" class="text">GET collaborators</text>
+  <text x="475" y="342" class="text">Owner actions:</text>
+  <text x="495" y="368" class="text">POST invite email</text>
+  <text x="495" y="392" class="text">DELETE collaborator email</text>
+  <text x="475" y="430" class="text">All users:</text>
+  <text x="495" y="456" class="text">view names, avatars, emails</text>
+  <text x="495" y="480" class="text">copy current project URL</text>
+  <text x="495" y="530" class="small">isOwner controls invite/remove UI</text>
+  <text x="495" y="552" class="small">Copied! feedback lasts 1.5 seconds</text>
+
+  <rect x="890" y="205" width="300" height="385" class="box server"/>
+  <text x="915" y="242" class="box-title">collaborators/route.ts</text>
+  <text x="915" y="278" class="text">GET</text>
+  <text x="935" y="302" class="text">auth + project membership</text>
+  <text x="935" y="326" class="text">list collaborators</text>
+  <text x="935" y="350" class="text">enrich via Clerk</text>
+  <text x="915" y="390" class="text">POST</text>
+  <text x="935" y="414" class="text">auth + owner check</text>
+  <text x="935" y="438" class="text">normalize and validate email</text>
+  <text x="935" y="462" class="text">upsert collaborator</text>
+  <text x="915" y="502" class="text">DELETE</text>
+  <text x="935" y="526" class="text">auth + owner check</text>
+  <text x="935" y="550" class="text">delete by project and email</text>
+
+  <rect x="1270" y="205" width="260" height="155" class="box data"/>
+  <text x="1295" y="242" class="box-title">Prisma</text>
+  <text x="1295" y="276" class="text">Project</text>
+  <text x="1295" y="300" class="text">ownerId</text>
+  <text x="1295" y="324" class="text">ProjectCollaborator</text>
+  <text x="1295" y="348" class="text">projectId + email</text>
+
+  <rect x="1270" y="430" width="260" height="160" class="box data"/>
+  <text x="1295" y="467" class="box-title">Clerk Backend API</text>
+  <text x="1295" y="501" class="text">find users by email</text>
+  <text x="1295" y="525" class="text">display name</text>
+  <text x="1295" y="549" class="text">avatar image</text>
+  <text x="1295" y="573" class="small">missing user =&gt; email fallback</text>
+
+  <path d="M370 270 H450" class="arrow"/>
+  <text x="382" y="258" class="label">click Share</text>
+  <path d="M220 335 V410" class="arrow"/>
+  <text x="235" y="378" class="label">open dialog</text>
+  <path d="M370 500 H450" class="arrow"/>
+  <text x="382" y="488" class="label">render</text>
+
+  <path d="M810 280 H890" class="arrow"/>
+  <text x="824" y="268" class="label">GET / POST / DELETE</text>
+  <path d="M1190 290 H1270" class="arrow"/>
+  <text x="1202" y="278" class="label">query / mutate</text>
+  <path d="M1190 480 H1270" class="arrow"/>
+  <text x="1202" y="468" class="label">enrich emails</text>
+  <path d="M1270 550 C1190 650 960 650 810 520" class="arrow dashed"/>
+  <text x="1000" y="665" class="label">response data</text>
+
+  <polygon points="600,720 760,650 920,720 760,790" class="decision"/>
+  <text x="688" y="714" class="box-title">Is owner?</text>
+  <text x="724" y="742" class="text">owner flag</text>
+
+  <rect x="290" y="840" width="300" height="80" class="box client"/>
+  <text x="320" y="875" class="box-title">Collaborator view</text>
+  <text x="320" y="900" class="text">list only; no invite/remove controls</text>
+
+  <rect x="970" y="840" width="300" height="80" class="box client"/>
+  <text x="1000" y="875" class="box-title">Owner view</text>
+  <text x="1000" y="900" class="text">invite, remove, list, copy link</text>
+
+  <path d="M650 590 V680" class="arrow"/>
+  <text x="665" y="640" class="label">user data loaded</text>
+  <path d="M680 755 C610 810 520 830 500 840" class="arrow"/>
+  <text x="540" y="798" class="label">no</text>
+  <path d="M840 755 C920 810 1000 830 1040 840" class="arrow"/>
+  <text x="905" y="798" class="label">yes</text>
+
+  <text x="70" y="955" class="small">Primary access boundary: the API re-checks authentication and ownership even when the UI hides controls.</text>
+</svg>

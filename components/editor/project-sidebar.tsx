@@ -8,6 +8,7 @@ import type { EditorProject } from "@/hooks/useProjectActions";
 
 interface ProjectSidebarProps {
   isOpen: boolean;
+  activeProjectId?: string;
   onClose: () => void;
   ownedProjects: EditorProject[];
   sharedProjects: EditorProject[];
@@ -19,6 +20,7 @@ interface ProjectSidebarProps {
 
 export function ProjectSidebar({
   isOpen,
+  activeProjectId,
   onClose,
   ownedProjects,
   sharedProjects,
@@ -76,7 +78,11 @@ export function ProjectSidebar({
                   {ownedProjects.map((project) => (
                     <div
                       key={project.id}
-                      className="flex cursor-pointer items-center justify-between rounded-xl border border-border bg-muted/20 px-3 py-2"
+                      className={`flex cursor-pointer items-center justify-between rounded-xl border px-3 py-2 ${
+                        project.id === activeProjectId
+                          ? "border-primary bg-accent"
+                          : "border-border bg-muted/20"
+                      }`}
                       role="button"
                       tabIndex={0}
                       onClick={() => onOpenProject(project)}
@@ -131,7 +137,11 @@ export function ProjectSidebar({
                   {sharedProjects.map((project) => (
                     <div
                       key={project.id}
-                      className="flex cursor-pointer items-center justify-between rounded-xl border border-border bg-muted/20 px-3 py-2"
+                      className={`flex cursor-pointer items-center justify-between rounded-xl border px-3 py-2 ${
+                        project.id === activeProjectId
+                          ? "border-primary bg-accent"
+                          : "border-border bg-muted/20"
+                      }`}
                       role="button"
                       tabIndex={0}
                       onClick={() => onOpenProject(project)}
