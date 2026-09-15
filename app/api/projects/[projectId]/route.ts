@@ -2,6 +2,12 @@ import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../lib/prisma";
 
+const DATABASE_ERROR_MESSAGE = "Database unavailable";
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
 function normalizeError(message: string, status = 400) {
   return NextResponse.json({ error: message }, { status });
 }
@@ -31,15 +37,20 @@ export async function PATCH(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    let body: { name?: string } = {};
-
+    let body: Record<string, unknown>;
     try {
-      body = await request.json();
+      const parsedBody: unknown = await request.json();
+
+      if (!isRecord(parsedBody) || typeof parsedBody.name !== "string") {
+        return normalizeError("Project name is required", 400);
+      }
+
+      body = parsedBody;
     } catch {
-      body = {};
+      return normalizeError("Project name is required", 400);
     }
 
-    const name = body.name?.trim();
+    const name = (body.name as string).trim();
 
     if (!name) {
       return normalizeError("Project name is required", 400);
@@ -54,9 +65,7 @@ export async function PATCH(
   } catch (error) {
     console.error("PATCH /api/projects/[projectId] failed", error);
     return NextResponse.json(
-      {
-        error: error instanceof Error ? error.message : "Database unavailable",
-      },
+      { error: DATABASE_ERROR_MESSAGE },
       { status: 500 },
     );
   }
@@ -95,9 +104,7 @@ export async function DELETE(
   } catch (error) {
     console.error("DELETE /api/projects/[projectId] failed", error);
     return NextResponse.json(
-      {
-        error: error instanceof Error ? error.message : "Database unavailable",
-      },
+      { error: DATABASE_ERROR_MESSAGE },
       { status: 500 },
     );
   }

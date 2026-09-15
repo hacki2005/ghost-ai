@@ -14,14 +14,11 @@ export async function getEditorProjects() {
     return { ownedProjects: [], sharedProjects: [] };
   }
 
-  let email: string | undefined;
-
-  try {
-    const user = await currentUser();
-    email = user?.emailAddresses?.[0]?.emailAddress;
-  } catch {
-    email = undefined;
-  }
+  const user = await currentUser();
+  const email =
+    user?.emailAddresses?.find(
+      (address) => address.id === user.primaryEmailAddressId,
+    )?.emailAddress ?? user?.emailAddresses?.[0]?.emailAddress;
 
   try {
     const [ownedProjects, sharedProjects] = await Promise.all([
@@ -58,7 +55,7 @@ export async function getEditorProjects() {
         owner: false,
       })),
     };
-  } catch {
-    return { ownedProjects: [], sharedProjects: [] };
+  } catch (error) {
+    throw error;
   }
 }

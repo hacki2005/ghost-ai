@@ -12,13 +12,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { makeSlug, type ProjectDialogState } from "@/hooks/useProjectActions";
+import { type ProjectDialogState } from "@/hooks/useProjectActions";
 
 interface ProjectDialogHostProps {
   dialog: ProjectDialogState | null;
   createName: string;
+  createRoomId: string;
   renameName: string;
   loading: boolean;
+  error: string | null;
   setCreateName: (name: string) => void;
   setRenameName: (name: string) => void;
   closeDialog: () => void;
@@ -30,8 +32,10 @@ interface ProjectDialogHostProps {
 export function ProjectDialogHost({
   dialog,
   createName,
+  createRoomId,
   renameName,
   loading,
+  error,
   setCreateName,
   setRenameName,
   closeDialog,
@@ -78,7 +82,7 @@ export function ProjectDialogHost({
                   Slug preview
                 </div>
                 <div className="mt-1 font-mono text-sm text-foreground">
-                  /{makeSlug(createName) || "project-name"}
+                  /{createRoomId || "project-name"}
                 </div>
               </div>
 
@@ -87,10 +91,16 @@ export function ProjectDialogHost({
                   Room ID preview
                 </div>
                 <div className="mt-1 font-mono text-sm text-foreground">
-                  {makeSlug(createName) || "project-name"}
+                  {createRoomId || "project-name"}
                 </div>
               </div>
             </div>
+
+            {error && (
+              <div role="alert" className="mt-3 text-sm text-destructive">
+                {error}
+              </div>
+            )}
 
             <DialogFooter className="mt-5 flex-row justify-end gap-2 border-0 bg-transparent p-0">
               <Button type="button" variant="ghost" onClick={closeDialog}>
@@ -147,6 +157,12 @@ export function ProjectDialogHost({
               </div>
             </div>
 
+            {error && (
+              <div role="alert" className="mt-3 text-sm text-destructive">
+                {error}
+              </div>
+            )}
+
             <DialogFooter className="mt-5 flex-row justify-end gap-2 border-0 bg-transparent p-0">
               <Button type="button" variant="ghost" onClick={closeDialog}>
                 Cancel
@@ -186,6 +202,12 @@ export function ProjectDialogHost({
                 ? This action cannot be undone.
               </DialogDescription>
             </DialogHeader>
+
+            {error && (
+              <div role="alert" className="mt-3 text-sm text-destructive">
+                {error}
+              </div>
+            )}
 
             <DialogFooter className="mt-5 flex-row justify-end gap-2 border-0 bg-transparent p-0">
               <Button type="button" variant="ghost" onClick={closeDialog}>

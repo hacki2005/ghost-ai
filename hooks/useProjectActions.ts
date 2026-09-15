@@ -28,6 +28,10 @@ export function makeRoomSuffix() {
   return Math.random().toString(36).slice(2, 7);
 }
 
+export function makeRoomId(name: string, suffix: string) {
+  return `${makeSlug(name) || "project"}-${suffix}`;
+}
+
 async function readErrorMessage(response: Response) {
   try {
     const payload = await response.json();
@@ -43,29 +47,36 @@ export function useProjectActions(projects: EditorProject[] = []) {
 
   const [dialog, setDialog] = useState<ProjectDialogState | null>(null);
   const [createName, setCreateName] = useState("");
+  const [createRoomSuffix, setCreateRoomSuffix] = useState("");
   const [renameName, setRenameName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const openCreate = () => {
     setDialog({ type: "create" });
     setCreateName("");
+    setCreateRoomSuffix(makeRoomSuffix());
     setLoading(false);
+    setError(null);
   };
 
   const openRename = (project: EditorProject) => {
     setDialog({ type: "rename", project });
     setRenameName(project.name);
     setLoading(false);
+    setError(null);
   };
 
   const openDelete = (project: EditorProject) => {
     setDialog({ type: "delete", project });
     setLoading(false);
+    setError(null);
   };
 
   const closeDialog = () => {
     setDialog(null);
     setLoading(false);
+    setError(null);
   };
 
   const submitCreate = async () => {
@@ -73,9 +84,8 @@ export function useProjectActions(projects: EditorProject[] = []) {
 
     setLoading(true);
 
-    const suffix = makeRoomSuffix();
-    const slug = makeSlug(createName);
-    const roomId = `${slug || "project"}-${suffix}`;
+    const roomId = makeRoomId(createName, createRoomSuffix);
+    setError(null);
 
     try {
       const response = await fetch("/api/projects", {
@@ -94,6 +104,7 @@ export function useProjectActions(projects: EditorProject[] = []) {
       router.refresh();
     } catch (error) {
       console.error(error);
+      setError(error instanceof Error ? error.message : "Failed to create project");
       setLoading(false);
       return;
     }
@@ -107,6 +118,7 @@ export function useProjectActions(projects: EditorProject[] = []) {
     if (!target || !renameName.trim()) return;
 
     setLoading(true);
+    setError(null);
 
     try {
       const response = await fetch(`/api/projects/${target.id}`, {
@@ -123,6 +135,7 @@ export function useProjectActions(projects: EditorProject[] = []) {
       router.refresh();
     } catch (error) {
       console.error(error);
+      setError(error instanceof Error ? error.message : "Failed to rename project");
       setLoading(false);
       return;
     }
@@ -136,6 +149,7 @@ export function useProjectActions(projects: EditorProject[] = []) {
     if (!target) return;
 
     setLoading(true);
+    setError(null);
 
     try {
       const response = await fetch(`/api/projects/${target.id}`, {
@@ -156,6 +170,7 @@ export function useProjectActions(projects: EditorProject[] = []) {
       }
     } catch (error) {
       console.error(error);
+      setError(error instanceof Error ? error.message : "Failed to delete project");
       setLoading(false);
       return;
     }
@@ -166,10 +181,12 @@ export function useProjectActions(projects: EditorProject[] = []) {
   return {
     dialog,
     createName,
+    createRoomId: makeRoomId(createName, createRoomSuffix),
     setCreateName,
     renameName,
     setRenameName,
     loading,
+    error,
     openCreate,
     openRename,
     openDelete,

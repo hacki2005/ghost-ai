@@ -18,6 +18,7 @@ Update this file whenever the current phase, active feature, or implementation s
 ## Completed
 
 - Feature 07: Added the requested server-side project data helper in [lib/project-data.ts](lib/project-data.ts), introduced the shared client hook in [hooks/useProjectActions.ts](hooks/useProjectActions.ts), and routed the editor home through the reusable editor-home gate in [components/editor/editor-home.tsx](components/editor/editor-home.tsx) so the sidebar and dialogs are connected to the real project data path instead of staying mock-only.
+- Feature 07 follow-up: validated project request bodies, kept generated room IDs aligned with project IDs, propagated data lookup failures, surfaced retryable dialog errors, and wired owned/shared project row navigation.
 - Feature 06: backend-only REST project routes are now implemented under [app/api/projects/route.ts](app/api/projects/route.ts) and [app/api/projects/[projectId]/route.ts](app/api/projects/[projectId]/route.ts) for list/create/rename/delete, owner-only mutation checks, and 401/403 responses aligned to the feature spec.
 - Feature 05: Prisma schema and generated client output now include the project and collaborator data model artifacts requested by the feature spec, and the Prisma singleton in [lib/prisma.ts](lib/prisma.ts) has been switched to the generated client import path so the workspace build compiles.
 - Installed and configured shadcn/ui with the existing base-nova style.
