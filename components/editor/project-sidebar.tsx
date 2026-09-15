@@ -8,9 +8,11 @@ import type { EditorProject } from "@/hooks/useProjectActions";
 
 interface ProjectSidebarProps {
   isOpen: boolean;
+  activeProjectId?: string;
   onClose: () => void;
   ownedProjects: EditorProject[];
   sharedProjects: EditorProject[];
+  onOpenProject: (project: EditorProject) => void;
   onCreate: () => void;
   onRename: (project: EditorProject) => void;
   onDelete: (project: EditorProject) => void;
@@ -18,9 +20,11 @@ interface ProjectSidebarProps {
 
 export function ProjectSidebar({
   isOpen,
+  activeProjectId,
   onClose,
   ownedProjects,
   sharedProjects,
+  onOpenProject,
   onCreate,
   onRename,
   onDelete,
@@ -74,7 +78,20 @@ export function ProjectSidebar({
                   {ownedProjects.map((project) => (
                     <div
                       key={project.id}
-                      className="flex items-center justify-between rounded-xl border border-border bg-muted/20 px-3 py-2"
+                      className={`flex cursor-pointer items-center justify-between rounded-xl border px-3 py-2 ${
+                        project.id === activeProjectId
+                          ? "border-primary bg-accent"
+                          : "border-border bg-muted/20"
+                      }`}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => onOpenProject(project)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          onOpenProject(project);
+                        }
+                      }}
                     >
                       <span className="text-sm text-foreground">
                         {project.name}
@@ -85,7 +102,10 @@ export function ProjectSidebar({
                           variant="ghost"
                           size="icon-sm"
                           aria-label={`Rename ${project.name}`}
-                          onClick={() => onRename(project)}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            onRename(project);
+                          }}
                         >
                           <Pencil className="h-4 w-4" />
                         </Button>
@@ -94,7 +114,10 @@ export function ProjectSidebar({
                           variant="ghost"
                           size="icon-sm"
                           aria-label={`Delete ${project.name}`}
-                          onClick={() => onDelete(project)}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            onDelete(project);
+                          }}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -114,7 +137,20 @@ export function ProjectSidebar({
                   {sharedProjects.map((project) => (
                     <div
                       key={project.id}
-                      className="flex items-center justify-between rounded-xl border border-border bg-muted/20 px-3 py-2"
+                      className={`flex cursor-pointer items-center justify-between rounded-xl border px-3 py-2 ${
+                        project.id === activeProjectId
+                          ? "border-primary bg-accent"
+                          : "border-border bg-muted/20"
+                      }`}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => onOpenProject(project)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          onOpenProject(project);
+                        }
+                      }}
                     >
                       <span className="text-sm text-foreground">
                         {project.name}
