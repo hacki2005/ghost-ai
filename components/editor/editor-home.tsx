@@ -1,31 +1,35 @@
 "use client";
 
 import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import { EditorNavbar } from "@/components/editor/editor-navbar";
 import { ProjectDialogHost } from "@/components/editor/project-dialogs";
 import { ProjectSidebar } from "@/components/editor/project-sidebar";
 import { Button } from "@/components/ui/button";
-import { useProjectActions, type EditorProject } from "@/hooks/useProjectActions";
+import {
+  useProjectActions,
+  type EditorProject,
+} from "@/hooks/useProjectActions";
 
 interface EditorHomeProps {
   ownedProjects: EditorProject[];
   sharedProjects: EditorProject[];
 }
 
-export function EditorHome({
-  ownedProjects,
-  sharedProjects,
-}: EditorHomeProps) {
+export function EditorHome({ ownedProjects, sharedProjects }: EditorHomeProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const router = useRouter();
   const allProjects = [...ownedProjects, ...sharedProjects];
 
   const {
     dialog,
     createName,
+    createRoomId,
     renameName,
     loading,
+    error,
     setCreateName,
     setRenameName,
     openCreate,
@@ -49,6 +53,7 @@ export function EditorHome({
         onClose={() => setIsSidebarOpen(false)}
         ownedProjects={ownedProjects}
         sharedProjects={sharedProjects}
+        onOpenProject={(project) => router.push(`/editor/${project.id}`)}
         onCreate={openCreate}
         onRename={openRename}
         onDelete={openDelete}
@@ -62,7 +67,8 @@ export function EditorHome({
                 Create a project or open an existing one
               </h1>
               <p className="text-sm text-muted-foreground">
-                Start a new architecture workspace, or choose a project from the sidebar.
+                Start a new architecture workspace, or choose a project from the
+                sidebar.
               </p>
             </div>
 
@@ -77,8 +83,10 @@ export function EditorHome({
       <ProjectDialogHost
         dialog={dialog}
         createName={createName}
+        createRoomId={createRoomId}
         renameName={renameName}
         loading={loading}
+        error={error}
         setCreateName={setCreateName}
         setRenameName={setRenameName}
         closeDialog={closeDialog}
